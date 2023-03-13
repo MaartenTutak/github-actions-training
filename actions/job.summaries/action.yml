@@ -1,0 +1,27 @@
+name: Job Summaries Composite
+description: Write Job Summaries
+inputs:
+  Heading:
+    description: 'Heading text'
+    required: true
+    default: "Heading text"
+  Link-Description:
+    description: "caption for the link"
+    required: true
+    default: "Link 1"
+  Link: 
+    description: 'Link to add'
+    required:  false    
+
+
+runs:
+  using: composite
+  steps:       
+      - name: Write Summary from Action
+        uses: actions/github-script@v6.1.0
+        with:
+          script: |
+            await core.summary
+            .addHeading('${{inputs.Heading}}')                          
+            .addLink('${{inputs.Link-Description}}', '${{inputs.Link}}')
+            .write()

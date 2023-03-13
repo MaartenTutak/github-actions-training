@@ -1,0 +1,19 @@
+name: Job Summaries
+
+on: [workflow_dispatch]
+
+jobs:  
+  job2:
+    runs-on: ubuntu-latest
+  
+    steps: 
+      - uses: actions/checkout@v3.3.0
+      - name: Write Summary from Action
+        uses: ./actions/job.summaries
+        with:
+          Heading : github link
+          Link-Description: find github here
+          Link : https://github.com
+      - run: sleep 15
+
+        

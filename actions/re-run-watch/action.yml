@@ -1,0 +1,13 @@
+name: watch for jobs re-running
+description: do not allow jobs to be re-running
+
+runs:
+  using: composite
+  steps:       
+      - name: Check if job has ran before
+        run:  |          
+          echo "This job shall not run more times than 1; canceling job"
+          exit 1
+        shell: bash
+        if: ${{ github.run_attempt != '1' }}
+      
