@@ -18,7 +18,6 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v3.3.0
-      - run: |
-          echo "${{github.event_name}}"
-      - run: |
-          echo "${{github.repository}}"
+      - run: echo "${{github.event_name}}"
+      - run: echo "${{github.repository}}"
+      - run: ls -l
