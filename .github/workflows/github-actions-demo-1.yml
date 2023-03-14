@@ -11,9 +11,14 @@ on:
   schedule:
     - cron: "15 6 * * SUN"
   workflow_dispatch:
+    inputs:
+      Environment:
+              description: input the environment
+              required: true
+              type: environment
   
 jobs:
-  build:
+  Build:
     name: "Build"
     runs-on: "ubuntu-latest"
     steps:
@@ -21,3 +26,37 @@ jobs:
       - run: echo "${{github.event_name}}"
       - run: echo "${{github.repository}}"
       - run: ls -l
+      
+  Test:
+    name: "Test"
+    runs-on: "ubuntu-latest"
+    needs: "Build"
+    environment: "Test"
+    if: ${{github.event_name === "workflow_dispatch"}}
+    steps:
+      - run: echo "Testing..."
+      
+  Load-Test:
+    name: "Load-Test"
+    runs-on: "ubuntu-latest"
+    needs: "Build"
+    environment: "Load-Test"
+    if: ${{github.event_name === "workflow_dispatch"}}
+    steps:
+      - run: echo "Testing..."
+      - run: sleep 15
+      
+  Production:
+    name: "Production"
+    runs-on: "ubuntu-latest"
+    needs: ["Test", "Load-Test"]
+    environment: 
+      name: "Production"
+      url: https://writeabout.net
+    if: ${{inputs.Environment === "Production"}}
+    steps:
+      - run: echo "Step 1 deploying......" && sleep 10
+      - run: echo "Step 2 deploying......" && sleep 10
+      - run: echo "Step 3 deploying......" && sleep 10
+      - run: echo "Step 4 deploying......" && sleep 10
+      - run: echo "Step 5 deploying......" && sleep 10
