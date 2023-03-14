@@ -2,10 +2,6 @@ name: Workflow-1
 on:  
   workflow_dispatch:
     inputs:
-      Environment:
-        description: input the environment
-        required: true
-        type: environment
       Name:
         description: input the name
         required: true
